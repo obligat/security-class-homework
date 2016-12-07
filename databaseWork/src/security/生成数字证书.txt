@@ -1,0 +1,9 @@
+keytool -genkey -validity 36000 -alias www.xupt.edu.cn -keyalg RSA -keystore D:\test.keystore
+生成证书库  keystore
+
+keytool -export -keystore D:\aur.keystore -alias www.xupt.edu.cn -file D:\aur.cer -rfc
+导出数字证书
+
+
+查看ie中数字证书：
+certmgr.msc

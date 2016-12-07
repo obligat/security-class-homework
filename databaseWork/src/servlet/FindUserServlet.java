@@ -66,6 +66,8 @@ public class FindUserServlet extends HttpServlet {
 
 			}
 			out.print("fail .");
+			ps.close();
+			conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

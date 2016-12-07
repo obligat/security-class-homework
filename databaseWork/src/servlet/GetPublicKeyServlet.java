@@ -11,13 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 
-import security.RSACoder;
+import encrypt.RSACoder;
 
-import data.UserBean;
+public class GetPublicKeyServlet extends HttpServlet {
 
-public class GetKey extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	public GetKey() {
+	public GetPublicKeyServlet() {
 		super();
 	}
 
@@ -29,14 +32,13 @@ public class GetKey extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		response.setHeader("Cache-Control", "no-cache");
 		try {
 			Map<String, Object> keyMap = RSACoder.initKey();
 			byte[] publicKey = RSACoder.getPublicKey(keyMap);
-			byte[] privateKey = RSACoder.getPrivateKey(keyMap);
 
-			response.setCharacterEncoding("utf-8");
 			PrintWriter out = response.getWriter();
 			out.print(Base64.encodeBase64String(publicKey));
 

@@ -1,4 +1,4 @@
-package encrypt;
+package security;
 
 
 import java.security.Key;
@@ -45,7 +45,7 @@ public abstract class RSACoder {
 	 * 密钥长度必须是64的倍数， 
 	 * 范围在512至65536位之间。
 	 */
-	private static final int KEY_SIZE = 1024;
+	private static final int KEY_SIZE = 512;
 
 	/**
 	 * 私钥解密
