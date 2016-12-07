@@ -26,7 +26,7 @@ function createHttpRequest(method, url, callback) {
 }
 
 function getPublicKey() {
-	createHttpRequest("GET", "GetKey", getPk);
+	createHttpRequest("GET", "GetPublicKeyServlet", getPk);
 
 }
 
@@ -41,5 +41,19 @@ function getPk() {
 }
 
 function encrypt() {
+	var username = document.getElementById("username").value;
+	var message = document.getElementById("message").value;
+	var url = "EncryptMessageServlet?message=" + encodeURI(encodeURI(message))
+			+ "&username=" + encodeURI(encodeURI(username));
+	createHttpRequest("GET",url, getEncrypt);
+}
 
+function getEncrypt() {
+	if (httpRequest.readyState == 4) {
+		if (httpRequest.status == 200) {
+			document.getElementById("showEncrytedMessage").innerHTML = httpRequest.responseText;
+		} else {
+			alert("ERROR");
+		}
+	}
 }
