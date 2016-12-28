@@ -20,7 +20,7 @@
 				<td><jsp:getProperty name="inform" property="phone" /></td>
 				<td><jsp:getProperty name="inform" property="email" /></td>
 				<td>a<jsp:getProperty name="inform" property="message" /></td>
-				<td><img src=Images/userImage/<jsp:getProperty name= "inform" property="pic" /> width=50 height=50 />
+				<td><img src=images/<jsp:getProperty name= "inform" property="pic" /> width=50 height=50 />
 				</td>
 		</table>
 	</Center>
