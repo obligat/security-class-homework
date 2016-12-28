@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="mybean.data.ShowByPage"%>
 <jsp:useBean id="show" type="mybean.data.ShowByPage" scope="session" />
-<HTML>
-<head><%@ include file="head.txt"%></HEAD>
-<Body>
+<html>
+<head><%@ include file="head.txt"%></head>
+<body bgcolor="pink">
 	<center>
 		<P>
 			显示会员信息。 <BR>每页最多显示<jsp:getProperty name="show"
@@ -21,26 +21,26 @@
 			</tr>
 			<jsp:getProperty name="show" property="presentPageResult" />
 		</table>
-		<BR>单击“前一页”或“后一页”按钮查看信息
-		<Table>
+		<br>单击“前一页”或“后一页”按钮查看信息
+		<table>
 			<tr>
-				<td><FORM action="helpShowMember" method=post>
-						<Input type=hidden name="showPage"
-							value="<%=show.getShowPage() - 1%>"> <Input type=submit
+				<td><form action="helpshowmember" method=post>
+						<input type=hidden name="showPage"
+							value="<%=show.getShowPage() - 1%>"> <input class="btn" type=submit
 							name="g" value="前一页">
-					</FORM></td>
-				<td><FORM action="helpShowMember" method=post>
-						<Input type=hidden name="showPage"
-							value="<%=show.getShowPage() + 1%>"> <Input type=submit
+					</form></td>
+				<td><form action="helpShowMember" method=post>
+						<input type=hidden name="showPage"
+							value="<%=show.getShowPage() + 1%>"> <input class="btn" type=submit
 							name="g" value="后一页">
-					</Form></td>
+					</form></td>
 				<td>
-					<FORM action="helpShowMember" method=post>
-						输入页码：<Input type=text name="showPage" size=5> <Input
+					<form action="helpShowMember" method=post>
+						输入页码：<input type=text name="showPage" size=5> <input class="btn"
 							type=submit name="g" value="提交">
-					</FORM></td>
+					</form></td>
 			</tr>
-		</Table>
-	</Center>
-</BODY>
-</HTML>
+		</table>
+	</center>
+</body>
+</html>
