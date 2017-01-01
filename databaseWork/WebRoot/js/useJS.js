@@ -25,35 +25,36 @@ function createHttpRequest(method, url, callback) {
 
 }
 
-function getPublicKey() {
-	createHttpRequest("GET", "GetPublicKeyServlet", getPk);
 
+function getOtherPubKey() {
+	var username = document.getElementById("othername").value;
+	var url = "GetOtherPublicKey?username=" + encodeURI(username);
+	createHttpRequest("GET", url, getOtherResult);
 }
 
-function getPk() {
+function getOtherResult() {
 	if (httpRequest.readyState == 4) {
 		if (httpRequest.status == 200) {
-			document.getElementById("publicKey").value = httpRequest.responseText;
-		} else {
-			alert("your request encounter wrong ." + httpRequest.responseText);
-		}
-	}
-}
-
-function encrypt() {
-	var username = document.getElementById("username").value;
-	var message = document.getElementById("message").value;
-	var url = "EncryptMessageServlet?message=" + encodeURI(encodeURI(message))
-			+ "&username=" + encodeURI(encodeURI(username));
-	createHttpRequest("GET",url, getEncrypt);
-}
-
-function getEncrypt() {
-	if (httpRequest.readyState == 4) {
-		if (httpRequest.status == 200) {
-			document.getElementById("showEncrytedMessage").innerHTML = httpRequest.responseText;
+			document.getElementById("pubKey").innerHTML = httpRequest.responseText;
 		} else {
 			alert("ERROR");
 		}
 	}
 }
+
+function lookMyMessage() {
+	var username = document.getElementById("othername").value;
+	var url = "LookMyMess?username=" + encodeURI(username);
+	createHttpRequest("GET", url, getMyMess);
+}
+
+function getMyMess() {
+	if (httpRequest.readyState == 4) {
+		if (httpRequest.status == 200) {
+			document.getElementById("myMessage").innerHTML = httpRequest.responseText;
+		} else {
+			alert("ERROR");
+		}
+	}
+}
+
