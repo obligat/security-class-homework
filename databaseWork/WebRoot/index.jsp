@@ -13,31 +13,33 @@
 
 <title>login page</title>
 <script type="text/javascript" src="js/useJS.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
-
+	<h3>
+		<a style="float:left;" class="btn" href="login.jsp">去登录</a> <a
+			style="float:right;" class="btn" href="message.jsp">去发消息</a>
+	</h3>
 	<form action="AddServlet" method="post">
+	<h3>注册界面</h3>
 		<ul>
-			<li>学号：<input type="text" name="username" id="username" />
+			<li><label>学号：</label> <input type="text" name="username" />
 			</li>
-			<li>密码：<input type="text" name="password" />
+			<li><label>密码：</label> <input type="text" name="password" />
 			</li>
-			<li>公钥：<input type="text" name="publicKey" id="publicKey" />
+			<li><label>公钥：</label> <input type="text" name="publicKey"
+					placeholder="我的公钥" />
 			</li>
-			<li><input type="button" value="getPublicKey" id="btn"
-					onClick="getPublicKey();" />
-			</li>
-			<li>摘要算法：<input type="radio" name="digestAlgorithm" value="MD5"
-					checked="checked" /> MD5 <input type="radio"
-					name="digestAlgorithm" value="SHA" /> SHA</li>
-			<li>非对称加密算法 ：<input type="radio" name="RSA" value="RSA"
-					checked="checked" /> RSA</li>
-			<li><input type="submit" value="add" /></li>
+			<li><label>摘要算法：</label> <input type="radio"
+					name="digestAlgorithm" value="MD5" checked="checked" /> MD5 <input
+					type="radio" name="digestAlgorithm" value="SHA" /> SHA</li>
+			<li><label>非对称加密算法 ：</label> <input type="radio" name="RSA"
+					value="RSA" checked="checked" /> RSA</li>
 		</ul>
-
+		<input class="btn" type="submit" value="注册" />
 	</form>
 
-	<a href="login.jsp">login</a>
+
 </body>
 </html>
