@@ -1,5 +1,8 @@
-package encrypt;
+package security;
 
+
+
+import java.io.ByteArrayOutputStream;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -15,13 +18,41 @@ import java.util.Map;
 
 import javax.crypto.Cipher;
 
-public abstract class RSACoder {
+public abstract class RSACoderPP {
 
+	/**
+	 * 非对称加密密钥算法
+	 */
 	public static final String KEY_ALGORITHM = "RSA";
 
-	private static final int KEY_SIZE = 1024;
-	private static Map<String, Object> keyMap = new HashMap<String, Object>();
+	/**
+	 * 公钥
+	 */
+	private static final String PUBLIC_KEY = "RSAPublicKey";
 
+	/**
+	 * 私钥
+	 */
+	private static final String PRIVATE_KEY = "RSAPrivateKey";
+
+	/**
+	 * RSA密钥长度 
+	 * 默认1024位，
+	 * 密钥长度必须是64的倍数， 
+	 * 范围在512至65536位之间。
+	 */
+	private static final int KEY_SIZE = 512;
+	public static Map<String, Object> keyMap= new HashMap<String, Object>();
+	/**
+	 * 私钥解密
+	 * 
+	 * @param data
+	 *            待解密数据
+	 * @param key
+	 *            私钥
+	 * @return byte[] 解密数据
+	 * @throws Exception
+	 */
 	public static byte[] decryptByPrivateKey(byte[] data, byte[] key)
 			throws Exception {
 
@@ -38,7 +69,25 @@ public abstract class RSACoder {
 
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
-		return cipher.doFinal(data);
+		int inputLen = data.length;  
+        ByteArrayOutputStream out = new ByteArrayOutputStream();  
+        int offSet = 0;  
+        byte[] cache;  
+        int i = 0;  
+        // 对数据分段解密  
+        while (inputLen - offSet > 0) {  
+            if (inputLen - offSet > 64) {  
+                cache = cipher.doFinal(data, offSet, 64);  
+            } else {  
+                cache = cipher.doFinal(data, offSet, inputLen - offSet);  
+            }  
+            out.write(cache, 0, cache.length);  
+            i++;  
+            offSet = i * 64;  
+        }  
+        byte[] decryptedData = out.toByteArray();  
+        out.close();  
+        return decryptedData;
 	}
 
 	/**
@@ -66,8 +115,29 @@ public abstract class RSACoder {
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
 
 		cipher.init(Cipher.DECRYPT_MODE, publicKey);
+		
+		int inputLen = data.length;  
+        ByteArrayOutputStream out = new ByteArrayOutputStream();  
+        int offSet = 0;  
+        byte[] cache;  
+        int i = 0;  
+        // 对数据分段解密  
+        while (inputLen - offSet > 0) {  
+            if (inputLen - offSet > 63) {  
+                cache = cipher.doFinal(data, offSet, 63);  
+            } else {  
+                cache = cipher.doFinal(data, offSet, inputLen - offSet);  
+            }  
+            out.write(cache, 0, cache.length);  
+            i++;  
+            offSet = i * 63;  
+        }  
+        byte[] decryptedData = out.toByteArray();  
+        out.close();  
+        return decryptedData; 
+		
 
-		return cipher.doFinal(data);
+
 	}
 
 	/**
@@ -94,8 +164,26 @@ public abstract class RSACoder {
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
 
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-		return cipher.doFinal(data);
+		 int inputLen = data.length;  
+	        ByteArrayOutputStream out = new ByteArrayOutputStream();  
+	    
+	        int offSet = 0;  
+	        byte[] cache;  
+	        int i = 0;  
+	        // 对数据分段加密  
+	        while (inputLen - offSet > 0) {  
+	            if (inputLen - offSet > 117) {  
+	                cache = cipher.doFinal(data, offSet, 117);  
+	            } else {  
+	                cache = cipher.doFinal(data, offSet, inputLen - offSet);  
+	            }  
+	            out.write(cache, 0, cache.length);  
+	            i++;  
+	            offSet = i * 117;  
+	        }  
+	        byte[] encryptedData = out.toByteArray();  
+	        out.close();  
+	        return encryptedData;  
 	}
 
 	/**
@@ -135,10 +223,10 @@ public abstract class RSACoder {
 	 * @return byte[] 私钥
 	 * @throws Exception
 	 */
-	public static byte[] getPrivateKey(String priKey)
+	public static byte[] getPrivateKey(String privatekey)
 			throws Exception {
 
-		Key key = (Key) keyMap.get(priKey);
+		Key key = (Key) keyMap.get(privatekey);
 
 		return key.getEncoded();
 	}
@@ -151,10 +239,10 @@ public abstract class RSACoder {
 	 * @return byte[] 公钥
 	 * @throws Exception
 	 */
-	public static byte[] getPublicKey(String pubKey)
+	public static byte[] getPublicKey(String publicKey)
 			throws Exception {
 
-		Key key = (Key) keyMap.get(pubKey);
+		Key key = (Key) keyMap.get(publicKey);
 
 		return key.getEncoded();
 	}
@@ -165,8 +253,7 @@ public abstract class RSACoder {
 	 * @return Map 密钥Map
 	 * @throws Exception
 	 */
-	public static Map<String, Object> initKey(String pubKey, String priKey)
-			throws Exception {
+	public static Map<String, Object> initKey(String PUBLIC_KEY, String PRIVATE_KEY ) throws Exception {
 
 		// 实例化密钥对生成器
 		KeyPairGenerator keyPairGen = KeyPairGenerator
@@ -186,8 +273,9 @@ public abstract class RSACoder {
 
 		// 封装密钥
 
-		keyMap.put(pubKey, publicKey);
-		keyMap.put(priKey, privateKey);
+
+		keyMap.put(PUBLIC_KEY, publicKey);
+		keyMap.put(PRIVATE_KEY, privateKey);
 
 		return keyMap;
 	}

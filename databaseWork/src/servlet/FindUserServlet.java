@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +18,7 @@ import dao.ConnDB;
 import data.UserBean;
 
 public class FindUserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
 	public FindUserServlet() {
 		super();
@@ -52,6 +52,8 @@ public class FindUserServlet extends HttpServlet {
 
 						if (enPsw.equals(rs.getString("password"))) {
 
+							request.getSession().setAttribute("username", username);
+							
 							response.sendRedirect("./message.jsp");
 						} else {
 							System.out.println("your put password is wrong");

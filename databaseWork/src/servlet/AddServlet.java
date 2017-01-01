@@ -16,9 +16,6 @@ import dao.ConnDB;
 
 public class AddServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public AddServlet() {
@@ -34,7 +31,6 @@ public class AddServlet extends HttpServlet {
 		String publicKey = request.getParameter("publicKey");
 		String digestAlgorithm = request.getParameter("digestAlgorithm");
 		String RSA = request.getParameter("RSA");
-		String message = request.getParameter("message");
 
 		try {
 
@@ -47,14 +43,13 @@ public class AddServlet extends HttpServlet {
 			}
 
 			Connection conn = new ConnDB().getConnection();
-			String sql = "insert into mytable (username, password, publicKey, digestAlgorithm,RSA,message) values (?,?,?,?,?,?)";
+			String sql = "insert into mytable (username, password, publicKey, digestAlgorithm,RSA) values (?,?,?,?,?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, username);
 			ps.setString(2, enPsw);
 			ps.setString(3, publicKey);
 			ps.setString(4, digestAlgorithm);
 			ps.setString(5, RSA);
-			ps.setString(6, message);
 
 			ps.executeUpdate();
 

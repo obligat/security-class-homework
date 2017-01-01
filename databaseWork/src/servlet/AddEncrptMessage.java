@@ -35,7 +35,7 @@ public class AddEncrptMessage extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-		String username = request.getParameter("username");
+		String othername = request.getParameter("othername");
 		String message = request.getParameter("encryptMes");
 
 		try {
@@ -43,7 +43,7 @@ public class AddEncrptMessage extends HttpServlet {
 			String sql = "update mytable set message=? where username=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, message);
-			ps.setString(2, username);
+			ps.setString(2, othername);
 			ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -51,10 +51,12 @@ public class AddEncrptMessage extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		RequestDispatcher dispatcher = request
-				.getRequestDispatcher("index.jsp");
-		dispatcher.forward(request, response);
+		/*
+		 * RequestDispatcher dispatcher = request
+		 * .getRequestDispatcher("index.jsp"); dispatcher.forward(request,
+		 * response);
+		 */
+		response.sendRedirect("index.jsp");
 	}
 
 }

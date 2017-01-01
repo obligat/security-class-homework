@@ -1,6 +1,5 @@
 package security;
 
-
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -29,21 +28,21 @@ public abstract class RSACoder {
 	 */
 	public static final String KEY_ALGORITHM = "RSA";
 
+	public static Map<String, Object> keyMap = new HashMap<String, Object>();
 	/**
 	 * 公钥
 	 */
-	private static final String PUBLIC_KEY = "RSAPublicKey";
-
-	/**
+	/*
+	 * private static String pubKey = "RSAPublicKey";
+	 *//**
 	 * 私钥
 	 */
-	private static final String PRIVATE_KEY = "RSAPrivateKey";
+	/*
+	 * private static String PRIVATE_KEY = "RSAPrivateKey";
+	 */
 
 	/**
-	 * RSA密钥长度 
-	 * 默认1024位，
-	 * 密钥长度必须是64的倍数， 
-	 * 范围在512至65536位之间。
+	 * RSA密钥长度 默认1024位， 密钥长度必须是64的倍数， 范围在512至65536位之间。
 	 */
 	private static final int KEY_SIZE = 512;
 
@@ -170,10 +169,9 @@ public abstract class RSACoder {
 	 * @return byte[] 私钥
 	 * @throws Exception
 	 */
-	public static byte[] getPrivateKey(Map<String, Object> keyMap)
-			throws Exception {
+	public static byte[] getPrivateKey(String priKey) throws Exception {
 
-		Key key = (Key) keyMap.get(PRIVATE_KEY);
+		Key key = (Key) keyMap.get(priKey);
 
 		return key.getEncoded();
 	}
@@ -186,10 +184,9 @@ public abstract class RSACoder {
 	 * @return byte[] 公钥
 	 * @throws Exception
 	 */
-	public static byte[] getPublicKey(Map<String, Object> keyMap)
-			throws Exception {
+	public static byte[] getPublicKey(String pubKey) throws Exception {
 
-		Key key = (Key) keyMap.get(PUBLIC_KEY);
+		Key key = (Key) keyMap.get(pubKey);
 
 		return key.getEncoded();
 	}
@@ -200,7 +197,8 @@ public abstract class RSACoder {
 	 * @return Map 密钥Map
 	 * @throws Exception
 	 */
-	public static Map<String, Object> initKey() throws Exception {
+	public static Map<String, Object> initKey(String pubKey, String priKey)
+			throws Exception {
 
 		// 实例化密钥对生成器
 		KeyPairGenerator keyPairGen = KeyPairGenerator
@@ -218,11 +216,8 @@ public abstract class RSACoder {
 		// 私钥
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
 
-		// 封装密钥
-		Map<String, Object> keyMap = new HashMap<String, Object>(2);
-
-		keyMap.put(PUBLIC_KEY, publicKey);
-		keyMap.put(PRIVATE_KEY, privateKey);
+		keyMap.put(pubKey, publicKey);
+		keyMap.put(priKey, privateKey);
 
 		return keyMap;
 	}

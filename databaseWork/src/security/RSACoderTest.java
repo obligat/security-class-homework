@@ -35,15 +35,17 @@ public class RSACoderTest {
 	public void initKey() throws Exception {
 
 		// 初始化密钥
-		Map<String, Object> keyMap = RSACoder.initKey();
+		RSACoder.initKey("9", "8");
 
-		publicKey = RSACoder.getPublicKey(keyMap);
-		privateKey = RSACoder.getPrivateKey(keyMap);
+		publicKey = RSACoder.getPublicKey("9");
+		privateKey = RSACoder.getPrivateKey("8");
 
 		String pu = Base64.encodeBase64String(publicKey);
 		System.out.println(publicKey);
-		System.out.println(Base64.decodeBase64(pu));
-		System.out.println(Base64.encodeBase64String(Base64.decodeBase64(pu)));
+		System.out.println("Base64.decodeBase64(publicKey)"
+				+ Base64.decodeBase64(pu));
+		System.out.println("Base64.encodeBase64String(Base64.decodeBase64"
+				+ Base64.encodeBase64String(Base64.decodeBase64(pu)));
 		System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
 		System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
 	}
